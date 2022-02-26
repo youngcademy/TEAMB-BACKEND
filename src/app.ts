@@ -3,7 +3,7 @@ import express, { Request, Response, NextFunction } from "express";
 const app = express();
 
 app.get("/welcome", (req: Request, res: Response, next: NextFunction) => {
-  res.send("welcome TeamBIG!");
+  res.send("WELCOME TO TeamBIG!");
 });
 
 app.listen("1234", () => {
