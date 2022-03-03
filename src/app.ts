@@ -1,18 +1,15 @@
-import express, { Request, Response, NextFunction } from "express";
+import express, { Application, Request, Response, NextFunction } from "express";
 
-const app = express();
-const jwt = require("jsonwebtoken");
-const token = jwt.sign({ test: true }, "secertkey");
-console.log(token);
+const app: Application = express();
 
-app.get("/welcome", (req: Request, res: Response, next: NextFunction) => {
-  res.send("WELCOME TO TeamBIG!");
+app.get("/", (req: Request, res: Response, next: NextFunction) => {
+  res.send("Hello, World!");
 });
 
 app.listen("1234", () => {
   console.log(`
   ################################################
-  🛡️  Server listening on port: 1234🛡️
+  🛡️ Server listening on port: 1234 🛡️
   ################################################
 `);
 });
