@@ -55,7 +55,7 @@ app.post('/login', (req, res) => {
     res.json({ accessToken, refreshToken });
 });
 
-// access token의 유효성 검사
+// Access token의 유효성 검사
 const authenticateAccessToken = (
     req: any,
     res: Response,
