@@ -3,7 +3,7 @@ import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
-import connection from './connection';
+import sequelize from './sequelize';
 import { Dog } from './models';
 
 const app = express();
@@ -47,7 +47,7 @@ app.delete(
 
 const start = async (): Promise<void> => {
     try {
-        await connection.sync();
+        await sequelize.sync();
         app.listen(3000, () => {
             console.log(
                 '--------------------Server started on port 3000--------------------'

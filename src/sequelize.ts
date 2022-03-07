@@ -2,7 +2,7 @@ import { Sequelize } from 'sequelize-typescript';
 
 import { Dog } from './models';
 
-const connection = new Sequelize({
+const sequelize = new Sequelize({
     dialect: 'mysql',
     host: 'localhost',
     username: 'root',
@@ -12,4 +12,4 @@ const connection = new Sequelize({
     models: [Dog],
 });
 
-export default connection;
+export default sequelize;
