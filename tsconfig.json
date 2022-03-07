@@ -1,12 +1,13 @@
 {
-  "compilerOptions": {
-    "target": "es6", //js 버전
-    "module": "commonjs", //모듈에 사용할 코드 유형
-    "outDir": "./dist", //결과를 보낼 디렉토리
-    "rootDir": ".", //루트 디렉토리
-    "strict": true, //타입 엄격하게 체크
-    "moduleResolution": "node", //모듈 해석 방법(Node.js)
-    "esModuleInterop": true,
-    "jsx": "react" //jsx 코드 생성
-  }
+    "compilerOptions": {
+        "sourceMap": true,
+        "outDir": "dist",
+        "strict": true,
+        "lib": ["esnext"],
+        "esModuleInterop": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "target": "esnext",
+        "moduleResolution": "Node"
+    }
 }
