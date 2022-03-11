@@ -45,7 +45,7 @@ const generateRefreshToken = (id: string) => {
 
 // Access token의 유효성 검사
 const authenticateAccessToken = (
-    req: any,
+    req: Request,
     res: Response,
     next: NextFunction
 ) => {
@@ -62,7 +62,7 @@ const authenticateAccessToken = (
     jwt.verify(
         token,
         process.env.ACCESS_TOKEN_SECRET,
-        (error: boolean, user: any) => {
+        (error: boolean, user: Record<string, unknown> | undefined) => {
             if (error) {
                 console.log(error);
                 return res.sendStatus(403);
