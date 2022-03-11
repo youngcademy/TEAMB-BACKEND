@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+require("dotenv").config();
 import express, { Request, Response, NextFunction } from "express";
 const jwt = require("jsonwebtoken");
 const bodyParser = require("body-parser");
@@ -24,7 +25,7 @@ const login = (id: string, pw: string) => {
 // access token을 secret key 기반으로 생성
 const generateAccessToken = (id: string) => {
   return jwt.sign({ id }, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: "15m",
+    expiresIn: "1m",
   });
 };
 
@@ -51,7 +52,7 @@ app.post("/login", (req, res) => {
 
 // access token의 유효성 검사
 const authenticateAccessToken = (
-  req: Request,
+  req: any,
   res: Response,
   next: NextFunction
 ) => {
@@ -97,7 +98,7 @@ app.post("/refresh", (req, res) => {
 });
 
 // access token 유효성 확인을 위한 예시 요청
-app.get("/user", authenticateAccessToken, (req: Request, res: Response) => {
+app.get("/user", authenticateAccessToken, (req: any, res: Response) => {
   console.log(req.user);
   res.json(users.filter((user) => user.id === req.user.id));
 });
