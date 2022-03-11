@@ -15,6 +15,20 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+// id, pw 데이터 배열
+const users = [
+    { id: 'dog', pw: '123' },
+    { id: 'cat', pw: '456' },
+];
+
+// 로그인 함수(id, pw 확인)
+const login = (id: string, pw: string) => {
+    for (let i = 0; i < users.length; i++) {
+        if (id === users[i].id && pw === users[i].pw) return id;
+    }
+    return '';
+};
+
 // Access token 생성
 const generateAccessToken = (id: string) => {
     return jwt.sign({ id }, process.env.ACCESS_TOKEN_SECRET, {
