@@ -5,6 +5,7 @@ import cors from 'cors';
 
 import sequelize from './sequelize';
 import { Dog } from './models';
+import { Order } from './order';
 
 const app = express();
 
@@ -42,6 +43,45 @@ app.delete(
         const deletedDog: Dog | null = await Dog.findByPk(id);
         await Dog.destroy({ where: { id } });
         return res.status(200).json(deletedDog);
+    }
+);
+
+app.get('/orders', async (req: Request, res: Response): Promise<Response> => {
+    const allOrders: Order[] = await Order.findAll();
+    return res.status(200).json(allOrders);
+});
+
+app.get(
+    '/orders/:id',
+    async (req: Request, res: Response): Promise<Response> => {
+        const { id } = req.params;
+        const orders: Order | null = await Order.findByPk(id);
+        return res.status(200).json(orders);
+    }
+);
+
+app.post('/orders', async (req: Request, res: Response): Promise<Response> => {
+    const order: Order = await Order.create({ ...req.body });
+    return res.status(201).json(order);
+});
+
+app.put(
+    '/orders/:id',
+    async (req: Request, res: Response): Promise<Response> => {
+        const { id } = req.params;
+        await Order.update({ ...req.body }, { where: { id } });
+        const updatedOrder: Order | null = await Order.findByPk(id);
+        return res.status(200).json(updatedOrder);
+    }
+);
+
+app.delete(
+    '/orders/:id',
+    async (req: Request, res: Response): Promise<Response> => {
+        const { id } = req.params;
+        const deletedOrder: Order | null = await Order.findByPk(id);
+        await Order.destroy({ where: { id } });
+        return res.status(200).json(deletedOrder);
     }
 );
 
