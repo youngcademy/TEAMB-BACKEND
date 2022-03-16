@@ -7,27 +7,13 @@ import cors from 'cors';
 const jwt = require('jsonwebtoken'); // JWT 생성 및 검증
 
 import sequelize from './sequelize';
-import { Dog } from './models';
+import { User } from './user';
 
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
-// id, pw 데이터 배열
-const users = [
-    { id: 'dog', pw: '123' },
-    { id: 'cat', pw: '456' },
-];
-
-// 로그인 함수(id, pw 확인)
-const login = (id: string, pw: string) => {
-    for (let i = 0; i < users.length; i++) {
-        if (id === users[i].id && pw === users[i].pw) return id;
-    }
-    return '';
-};
 
 // Access token 생성
 const generateAccessToken = (id: string) => {
@@ -73,38 +59,63 @@ const authenticateAccessToken = (
     );
 };
 
-app.get('/dogs', async (req: Request, res: Response): Promise<Response> => {
-    const allDogs: Dog[] = await Dog.findAll();
-    return res.status(200).json(allDogs);
+app.get('/users', async (req: Request, res: Response): Promise<Response> => {
+    const allUsers: User[] = await User.findAll();
+    return res.status(200).json(allUsers);
 });
 
-app.get('/dogs/:id', async (req: Request, res: Response): Promise<Response> => {
-    const { id } = req.params;
-    const dog: Dog | null = await Dog.findByPk(id);
-    return res.status(200).json(dog);
-});
-
-app.post('/dogs', async (req: Request, res: Response): Promise<Response> => {
-    const dog: Dog = await Dog.create({ ...req.body });
-    return res.status(201).json(dog);
-});
-
-app.put('/dogs/:id', async (req: Request, res: Response): Promise<Response> => {
-    const { id } = req.params;
-    await Dog.update({ ...req.body }, { where: { id } });
-    const updatedDog: Dog | null = await Dog.findByPk(id);
-    return res.status(200).json(updatedDog);
-});
-
-app.delete(
-    '/dogs/:id',
+app.get(
+    '/users/:id',
     async (req: Request, res: Response): Promise<Response> => {
         const { id } = req.params;
-        const deletedDog: Dog | null = await Dog.findByPk(id);
-        await Dog.destroy({ where: { id } });
-        return res.status(200).json(deletedDog);
+        const user: User | null = await User.findByPk(id);
+        return res.status(200).json(user);
     }
 );
+
+app.post('/users', async (req: Request, res: Response): Promise<Response> => {
+    const user: User = await User.create({ ...req.body });
+    return res.status(201).json(user);
+});
+
+app.put(
+    '/users/:id',
+    async (req: Request, res: Response): Promise<Response> => {
+        const { id } = req.params;
+        await User.update({ ...req.body }, { where: { id } });
+        const updatedUser: User | null = await User.findByPk(id);
+        return res.status(200).json(updatedUser);
+    }
+);
+
+app.delete(
+    '/users/:id',
+    async (req: Request, res: Response): Promise<Response> => {
+        const { id } = req.params;
+        const deletedUser: User | null = await User.findByPk(id);
+        await User.destroy({ where: { id } });
+        return res.status(200).json(deletedUser);
+    }
+);
+
+app.post('/login', async (req: Request, res: Response): Promise<Response> => {
+    const id = req.body.userID;
+    const pw = req.body.userPW;
+    const loginUser: User | null = await User.findOne({
+        where: { userID: id, userPW: pw },
+    });
+    if (loginUser === null) {
+        console.log('Not found!');
+        return res.sendStatus(404);
+    }
+
+    const accessToken = generateAccessToken(id);
+    const refreshToken = generateRefreshToken(id);
+
+    console.log('A token has been generated.');
+    console.log(accessToken);
+    return res.json({ accessToken, refreshToken });
+});
 
 const start = async (): Promise<void> => {
     try {

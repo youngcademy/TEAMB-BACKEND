@@ -1,6 +1,7 @@
 import { Sequelize } from 'sequelize-typescript';
 
 import { Dog } from './models';
+import { User } from './user';
 
 const sequelize = new Sequelize({
     dialect: 'mysql',
@@ -9,7 +10,7 @@ const sequelize = new Sequelize({
     password: '1234',
     database: 'sequelize',
     logging: false,
-    models: [Dog],
+    models: [Dog, User],
 });
 
 export default sequelize;
