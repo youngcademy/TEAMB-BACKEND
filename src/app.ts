@@ -120,7 +120,7 @@ app.post('/login', async (req: Request, res: Response): Promise<Response> => {
 const start = async (): Promise<void> => {
     try {
         await sequelize.sync();
-        app.listen(3000, () => {
+        app.listen(1234, () => {
             console.log(
                 '--------------------Server started on port 3000--------------------'
             );
