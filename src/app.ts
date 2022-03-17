@@ -122,7 +122,7 @@ const start = async (): Promise<void> => {
         await sequelize.sync();
         app.listen(1234, () => {
             console.log(
-                '--------------------Server started on port 3000--------------------'
+                '--------------------Server started on port 1234--------------------'
             );
         });
     } catch (error) {
