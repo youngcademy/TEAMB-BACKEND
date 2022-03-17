@@ -2,8 +2,8 @@ require('dotenv').config(); // .env 파일에 있는 환경 변수를 process.en
 
 import 'reflect-metadata';
 import express, { Request, Response, NextFunction } from 'express';
-import bodyParser from 'body-parser';
-import cors from 'cors';
+const bodyParser = require('body-parser');
+const cors = require('cors');
 const jwt = require('jsonwebtoken'); // JWT 생성 및 검증
 
 import sequelize from './sequelize';
