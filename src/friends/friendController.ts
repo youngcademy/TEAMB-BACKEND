@@ -12,7 +12,7 @@ import { Friend } from './friend';
 import { FriendsService, FriendCreationParams } from './friendsService';
 
 @Route('friends')
-export class FriendsController extends Controller {
+export default class FriendsController extends Controller {
     @Get('{friendId}')
     public async getFriend(
         @Path() friendId: number,

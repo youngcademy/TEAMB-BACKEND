@@ -6,7 +6,7 @@ import express, { Request, Response, NextFunction } from 'express';
 const cors = require('cors');
 const jwt = require('jsonwebtoken'); // JWT 생성 및 검증
 import swaggerUi from 'swagger-ui-express';
-import FriendsController from './friends/friendController';
+// import FriendsController from './friends/friendController';
 
 import sequelize from './sequelize';
 import { User } from './user';
@@ -129,11 +129,11 @@ app.post('/login', async (req: Request, res: Response): Promise<Response> => {
     return res.json({ accessToken, refreshToken });
 });
 
-app.get('/ping', async (_req, res) => {
-    const controller = new FriendsController();
-    const response = await controller.getFriend();
-    return res.send(response);
-});
+// app.get('/ping', async (_req, res) => {
+//     const controller = new FriendsController();
+//     const response = await controller.getFriend(1, 'jack');
+//     return res.send(response);
+// });
 
 const start = async (): Promise<void> => {
     try {
