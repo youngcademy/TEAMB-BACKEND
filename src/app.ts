@@ -2,9 +2,11 @@ require('dotenv').config(); // .env 파일에 있는 환경 변수를 process.en
 
 import 'reflect-metadata';
 import express, { Request, Response, NextFunction } from 'express';
-const bodyParser = require('body-parser');
+// const bodyParser = require('body-parser');
 const cors = require('cors');
 const jwt = require('jsonwebtoken'); // JWT 생성 및 검증
+import swaggerUi from 'swagger-ui-express';
+import FriendsController from './friends/friendController';
 
 import sequelize from './sequelize';
 import { User } from './user';
@@ -12,8 +14,18 @@ import { User } from './user';
 const app = express();
 
 app.use(cors());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.static('public'));
+
+app.use(
+    '/docs',
+    swaggerUi.serve,
+    swaggerUi.setup(undefined, {
+        swaggerOptions: {
+            url: '/swagger.json',
+        },
+    })
+);
 
 // Access token 생성
 const generateAccessToken = (id: string) => {
@@ -115,6 +127,12 @@ app.post('/login', async (req: Request, res: Response): Promise<Response> => {
     console.log('A token has been generated.');
     console.log(accessToken);
     return res.json({ accessToken, refreshToken });
+});
+
+app.get('/ping', async (_req, res) => {
+    const controller = new FriendsController();
+    const response = await controller.getFriend();
+    return res.send(response);
 });
 
 const start = async (): Promise<void> => {
