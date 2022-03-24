@@ -8,12 +8,23 @@ const jwt = require('jsonwebtoken'); // JWT 생성 및 검증
 
 import sequelize from './sequelize';
 import { User } from './user';
+import swaggerUi from 'swagger-ui-express';
 
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(express.static('public'));
+app.use(
+    '/docs',
+    swaggerUi.serve,
+    swaggerUi.setup(undefined, {
+        swaggerOptions: {
+            url: '/swagger.json',
+        },
+    })
+);
 
 // Access token 생성
 const generateAccessToken = (id: string) => {
