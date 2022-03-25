@@ -10,21 +10,14 @@ import FriendsController from './friends/friendController';
 
 import sequelize from './sequelize';
 import { User } from './user';
+import swaggerDocs from './swagger.json';
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
-app.use(
-    '/docs',
-    swaggerUi.serve,
-    swaggerUi.setup(undefined, {
-        swaggerOptions: {
-            url: '/swagger.json',
-        },
-    })
-);
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Access token 생성
 const generateAccessToken = (id: string) => {
